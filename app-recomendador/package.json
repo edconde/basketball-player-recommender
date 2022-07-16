@@ -6,7 +6,7 @@
     "start": "node server.js",
     "build": "ng build",
     "heroku-postbuild": "ng build --prod",
-    "deploy-github-pages": "ng build --prod --base-href=https://edconde.github.io/tfm-visualanalytics-bigdata/ --output-path=../docs",
+    "deploy-github-pages": "ng build --prod --base-href=https://edconde.github.io/basketball-player-recommender/ --output-path=../docs",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
