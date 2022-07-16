@@ -1,0 +1,31 @@
+{
+  "appenders": {
+    "consoleAppender": { "type": "console" },
+    "developmentFileAppender": {
+      "type": "file",
+      "filename": "./logs/dev/dev.log",
+      "maxLogSize": 1024,
+      "numBackups": 1
+    },
+    "productionFileAppender": {
+      "type": "file",
+      "filename": "./logs/prod/prod.log",
+      "maxLogSize": 10240,
+      "numBackups": 3
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": ["consoleAppender"],
+      "level": "info"
+    },
+    "development": {
+      "appenders": ["consoleAppender", "developmentFileAppender"],
+      "level": "info"
+    },
+    "production": {
+      "appenders": ["productionFileAppender"],
+      "level": "warn"
+    }
+  }
+}

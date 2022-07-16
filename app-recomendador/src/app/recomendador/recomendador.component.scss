@@ -1,0 +1,32 @@
+#loading {
+    text-align: -webkit-center;
+    #spinner {
+        margin: 16px;
+    }
+}
+
+#recomendador-container {
+    padding: 16px;
+    > div {
+        overflow: auto;
+    }
+}
+
+table {
+    width: 100%;
+    th.mat-header-cell {
+        padding: 0px 8px;
+        text-align: center;
+        ::ng-deep .mat-sort-header-container {
+            justify-content:center;
+        }
+    }
+    td.mat-cell {
+        text-align: center;
+    }
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
