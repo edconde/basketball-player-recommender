@@ -1,0 +1,46 @@
+[
+  {
+    "_id": "037f37c8-594b-4258-a245-55c71fee2547",
+    "colId": "95ea993d-023e-4e83-8199-55f21908f953",
+    "containerId": "",
+    "name": "/players",
+    "url": "https://api-recomendador.herokuapp.com/api/players",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-07-16T19:17:53.733Z",
+    "modified": "2022-07-16T19:17:53.733Z",
+    "headers": []
+  },
+  {
+    "_id": "21ad773b-086c-426c-ade6-2d62ae8bef93",
+    "colId": "95ea993d-023e-4e83-8199-55f21908f953",
+    "containerId": "",
+    "name": "/players/{id}",
+    "url": "https://api-recomendador.herokuapp.com/api/players/619dcb8a4af3a4dc167dc49b",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2022-07-16T19:17:53.734Z",
+    "modified": "2022-07-16T19:17:53.734Z",
+    "headers": []
+  },
+  {
+    "_id": "5519292d-a7e9-41a6-a61d-86155a6be989",
+    "colId": "95ea993d-023e-4e83-8199-55f21908f953",
+    "containerId": "",
+    "name": "/players/{id}/recomendaciones",
+    "url": "https://api-recomendador.herokuapp.com/api/players/619dcb8a4af3a4dc167dc4d7/recomendaciones?position=SG",
+    "method": "GET",
+    "sortNum": 30000,
+    "created": "2022-07-16T19:17:53.735Z",
+    "modified": "2022-07-16T19:18:34.390Z",
+    "headers": [],
+    "params": [
+      {
+        "name": "position",
+        "value": "SG",
+        "isPath": false
+      }
+    ],
+    "tests": []
+  }
+]

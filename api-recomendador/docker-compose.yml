@@ -1,0 +1,44 @@
+version: '3.9'
+
+networks:
+  mongo-network:
+
+services:
+  #service 1: definition of mongoDB database
+  mongo-db:
+    image: mongo:5.0
+    container_name: mongo-container
+    environment:
+      #- MONGO_INITDB_DATABASE=databaseName #usamos la base de datos 'test' que es la que viene por defecto
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    ports:
+      - '27017:27017'
+    networks:
+      - mongo-network
+    restart: always
+
+  #service 2: definition of your spring-boot app
+  recomendadorservice: #it is just a name, which will be used only in this file.
+    image: recomendador-api-image #name of the image after dockerfile executes (if you have a build step where you build the image, otherwise name of the image to pull)
+    container_name: recomendador-api-container #name of the container created from docker image
+    #build:
+    #  context: .                          #docker file path (. means root directory)
+    #  dockerfile: Dockerfile              #docker file name
+    ports:
+      - '3000:3000' #docker container port with your os port
+    networks:
+      - mongo-network
+    restart: always
+
+    depends_on: #define dependencies of this app
+      - mongo-db #dependency name (which is defined with this name 'mongo-db' in this file earlier)
+    #variables de entorno (también se podrían especificar en el Dockerfile):
+    environment:
+      PORT: 3000
+      MONGODB_CONNECTION_STRING: mongodb://username:password@mongo-container:27017
+      SSL_CERT_PATH: /ssl/live/domain-name/cert.pem
+      SSL_CERT_CHAIN_PATH: /ssl/live/domain-name/chain.pem
+      SSL_CERT_PRIVATE_KEY_PATH: /ssl/live/domain-name/privkey.pem
+    volumes:
+      - /etc/letsencrypt/:/ssl #ruta de los certificados ssl que utiliza la aplicación, se monta el directorio /etc/letsencrypt del servidor en el /ssl del contenedor

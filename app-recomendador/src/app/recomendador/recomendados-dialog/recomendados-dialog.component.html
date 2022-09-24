@@ -1,0 +1,35 @@
+<div mat-dialog-title>
+  <h2>{{ data.player.Name }} ({{data.player.Position}})</h2>
+  <h3>Compatibilidad con jugadores con posición {{ data.position }} ({{positionName}})</h3>
+</div>
+
+<table mat-table [dataSource]="dataSource" matSort matSortActive="Name" matSortDirection="desc" matSortStart="desc">
+    <!-- Name Column -->
+    <ng-container matColumnDef="Name">
+      <th mat-header-cell *matHeaderCellDef> Índice de recomendación </th>
+      <td mat-cell *matCellDef="let row">{{row.Name}} <span [style.color]="getColor(row)" matBadge="{{(row.Score * row.Overall) / 10 | number:'1.1-1'}}"> </span> </td>
+    </ng-container>
+
+    <!-- Recomendacion Column -->
+    <ng-container matColumnDef="Recomendacion">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Recomendado </th>
+      <td mat-cell *matCellDef="let row" [style.color]="getColor(row)"> {{(row.Score * row.Overall) | number:'1.2-2'}}   </td>
+    </ng-container>
+    
+    <!-- Compatibilidad Column -->
+    <ng-container matColumnDef="Compatibilidad">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Compatibilidad en juego </th>
+        <td mat-cell *matCellDef="let row"> {{row.Score | number:'1.2-2'}} </td>
+    </ng-container>
+      
+    <!-- Valoracion Column -->
+    <ng-container matColumnDef="Valoracion">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef> Valoración </th>
+        <td mat-cell *matCellDef="let row"> {{row.Overall}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 15, 20]" [pageSize]="10" showFirstLastButtons aria-label="Select page of players"></mat-paginator>

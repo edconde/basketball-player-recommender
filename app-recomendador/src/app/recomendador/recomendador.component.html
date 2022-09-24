@@ -1,0 +1,124 @@
+<div id="loading" *ngIf="!dataSource.data.length">
+    <mat-progress-spinner
+        id="spinner"
+        [color]="'primary'"
+        [mode]="'indeterminate'"
+        [value]="'50'">
+    </mat-progress-spinner>
+    <p>Cargando información de jugadores...</p>
+</div>
+
+<div id="recomendador-container" *ngIf="dataSource.data.length">
+    <mat-form-field appearance="standard">
+        <mat-label>Buscar por nombre, equipo...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" #filter placeholder="Ej. Lakers" #input>
+        <button *ngIf="filter.value" matSuffix mat-icon-button aria-label="Clear" (click)="filter.value=''; filterData('')">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="Team">
+
+            <!-- Imagen Column -->
+            <ng-container matColumnDef="Imagen" sticky>
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let row">
+                    <!-- <img crossorigin="anonymous" [src]=row.ImgUrl> -->
+                    <mat-icon>person</mat-icon>
+                </td>
+            </ng-container>
+
+            <!-- Nombre Column -->
+            <ng-container matColumnDef="Name" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                <td mat-cell *matCellDef="let row"> {{row.Name}} </td>
+            </ng-container>
+            
+            <!-- Equipo Column -->
+            <ng-container matColumnDef="Team">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Equipo </th>
+                <td mat-cell *matCellDef="let row"> {{row.Team}} </td>
+            </ng-container>
+            
+            <!-- Posicion Column -->
+            <ng-container matColumnDef="Position">
+                <th mat-header-cell *matHeaderCellDef> Posición </th>
+                <td mat-cell *matCellDef="let row"> {{row.Position}} </td>
+            </ng-container>
+            
+            <!-- Valoracion Column -->
+            <ng-container matColumnDef="Overall">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Valoración </th>
+                <td mat-cell *matCellDef="let row"> {{row.Overall}} </td>
+            </ng-container>
+            
+            <!-- Anotacion Exterior Column -->
+            <ng-container matColumnDef="Outside Scoring">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Anotación Exterior </th>
+                <td mat-cell *matCellDef="let row"> {{row['Outside Scoring'] | number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Anotacion Interior Column -->
+            <ng-container matColumnDef="Inside Scoring">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Anotación Interior </th>
+                <td mat-cell *matCellDef="let row"> {{row['Inside Scoring']| number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Defensa Column -->
+            <ng-container matColumnDef="Defending">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Defensa </th>
+                <td mat-cell *matCellDef="let row"> {{row.Defending | number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Capacidad Atletica Column -->
+            <ng-container matColumnDef="Athleticism">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Capacidad atlética </th>
+                <td mat-cell *matCellDef="let row"> {{row.Athleticism | number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Playmaking Column -->
+            <ng-container matColumnDef="Playmaking">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Playmaking </th>
+                <td mat-cell *matCellDef="let row"> {{row.Playmaking | number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Rebote Column -->
+            <ng-container matColumnDef="Rebounding">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header start="desc"> Rebote </th>
+                <td mat-cell *matCellDef="let row"> {{row.Rebounding | number:'1.0-0'}} </td>
+            </ng-container>
+            
+            <!-- Detalle Column -->
+            <ng-container matColumnDef="Detalle">
+                <th mat-header-cell *matHeaderCellDef> Detalle </th>
+                <td mat-cell *matCellDef="let row"><button mat-icon-button (click)="verDetalle(row)"><mat-icon color=primary>loupe</mat-icon></button></td>
+            </ng-container>
+            
+            <!-- Compatibles Column -->
+            <ng-container matColumnDef="Compatibles" stickyEnd>
+                <th mat-header-cell *matHeaderCellDef> Buscar compatibles </th>
+                <td mat-cell *matCellDef="let row">
+                    <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon color=primary>groups</mat-icon></button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="buscarCompatibles(row, 'PG')">PG (bases)</button>
+                        <button mat-menu-item (click)="buscarCompatibles(row, 'SG')">SG (escoltas)</button>
+                        <button mat-menu-item (click)="buscarCompatibles(row, 'SF')">SF (aleros)</button>
+                        <button mat-menu-item (click)="buscarCompatibles(row, 'PF')">PF (ala-pívots)</button>
+                        <button mat-menu-item (click)="buscarCompatibles(row, 'C')">C (pívots)</button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" showFirstLastButtons aria-label="Select page of players"></mat-paginator>
+    </div>
+</div>
