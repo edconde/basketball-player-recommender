@@ -1,5 +1,0 @@
-{
-    "ENVIRONMENT_NAME": "production",
-    "PORT": 3000,
-    "LOGGER_CATEGORY": "production"
-}
