@@ -1,40 +1,36 @@
-import * as mongoose from 'mongoose';
-import { IPlayer, Player } from '../models';
-import { IPlayerRecomendado } from '../models/player.model';
-import CrudService from './crud.service';
+import {
+  IJSONPlayer,
+  IJSONPlayerRecomendado,
+} from '../models/json-player.model';
+import JsonCrudService from './json-crud-service';
 
-/**
- * Clase que realiza las operaciones sobre los documentos de tipo IPlayer
- */
-class PlayerService extends CrudService<IPlayer> {
-  private static instance: PlayerService;
+export class JSONPlayerService extends JsonCrudService<IJSONPlayer> {
+  private static instance: JSONPlayerService;
 
-  private constructor() {
-    super(Player);
+  constructor() {
+    super('players.json');
   }
 
   /**
    * Devuelve una instancia singleton de la clase
    */
-  public static getInstance(): PlayerService {
-    if (!PlayerService.instance) {
-      PlayerService.instance = new PlayerService();
+  public static getInstance(): JSONPlayerService {
+    if (!JSONPlayerService.instance) {
+      JSONPlayerService.instance = new JSONPlayerService();
     }
-    return PlayerService.instance;
+    return JSONPlayerService.instance;
   }
 
   /**
-   *
-   * @param playerName el nombre del player en el documento de tipo <T> a buscar
+   * Devuelve un array de jugadores de la posición indicada
+   * @param position la posición de los jugadores a buscar
    */
-  public async findByPlayerName(playerName: string): Promise<IPlayer> {
-    return Player.findOne({ Name: playerName })
-      .then((data: IPlayer) => {
-        return data;
-      })
-      .catch((error: Error) => {
-        throw error;
-      });
+  public async findByPosition(position: string): Promise<IJSONPlayer[]> {
+    return this.findAll().then((players: IJSONPlayer[]) => {
+      return players.filter(
+        (player) => player.Position === position.toUpperCase()
+      );
+    });
   }
 
   /**
@@ -44,10 +40,10 @@ class PlayerService extends CrudService<IPlayer> {
   public async findPlayersRecomendadosById(
     id: string,
     position: string
-  ): Promise<IPlayerRecomendado[]> {
+  ): Promise<IJSONPlayerRecomendado[]> {
     if (['PG', 'SG', 'SF', 'PF', 'C'].includes(position.toUpperCase())) {
-      return Player.findOne({ _id: new mongoose.Types.ObjectId(id) })
-        .then((player: IPlayer) => {
+      return this.findById(id)
+        .then((player: IJSONPlayer) => {
           const compatibilidades = [
             player[`Compatibilidad ${position} Cluster 0`],
             player[`Compatibilidad ${position} Cluster 1`],
@@ -55,11 +51,10 @@ class PlayerService extends CrudService<IPlayer> {
             player[`Compatibilidad ${position} Cluster 3`],
           ];
 
-          return Player.find({ Position: position.toUpperCase() })
-            .lean()
+          return this.findByPosition(position)
             .then((data: any) => {
-              const players: IPlayerRecomendado[] =
-                data as IPlayerRecomendado[];
+              const players: IJSONPlayerRecomendado[] =
+                data as IJSONPlayerRecomendado[];
               players.forEach(
                 (p) => (p.Score = this.calcularScore(p, compatibilidades))
               );
@@ -84,7 +79,7 @@ class PlayerService extends CrudService<IPlayer> {
     }
   }
 
-  calcularScore(player: IPlayer, compatibilidades: Array<number>): number {
+  calcularScore(player: IJSONPlayer, compatibilidades: Array<number>): number {
     let scoreMasAlto = 0;
     // Sólo calculamos score para clusteres con alta compatibilidad (mayor que 0.66 sobre 1)por parte del jugador para el que buscamos compañeros
     compatibilidades
@@ -100,4 +95,4 @@ class PlayerService extends CrudService<IPlayer> {
   }
 }
 
-export default PlayerService.getInstance();
+export default JSONPlayerService.getInstance();

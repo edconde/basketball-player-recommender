@@ -2,7 +2,7 @@ import * as express from 'express';
 import { AppLogger } from '../logger';
 import { IPlayer } from '../models';
 import { IPlayerRecomendado } from '../models/player.model';
-import { playerService } from '../services';
+import { dbPlayerService as playerService } from '../services';
 import { IBaseController } from './base.controller';
 
 export class PlayerController implements IBaseController {

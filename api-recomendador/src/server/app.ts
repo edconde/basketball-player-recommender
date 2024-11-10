@@ -1,15 +1,14 @@
-import { ENVIRONMENT } from './environment';
-import * as swaggerUi from 'swagger-ui-express';
-import * as swaggerDocument from '../server/config/documentation/swagger.json';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import * as express from 'express';
 import * as fs from 'fs';
 import * as https from 'https';
+import * as swaggerUi from 'swagger-ui-express';
+import * as swaggerDocument from '../server/config/documentation/swagger.json';
+import { ENVIRONMENT, ENVIRONMENT_NAMES } from './environment';
+import { AppLogger } from './logger';
 import { errorMiddleware } from './middleware';
 import { Routes } from './routes';
-import { AppLogger } from './logger';
-import { ENVIRONMENT_NAMES } from './environment';
 
 class App {
   private app: express.Application;

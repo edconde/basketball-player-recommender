@@ -1,1 +1,2 @@
-export { default as playerService } from './player.service';
+export { default as jsonPlayerService } from './json-player.service';
+export { default as dbPlayerService } from './player.service';
