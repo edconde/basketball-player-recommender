@@ -2,7 +2,7 @@ import {
   IJSONPlayer,
   IJSONPlayerRecomendado,
 } from '../models/json-player.model';
-import players_data from '../models/json-players-data.js';
+import players_data from '../models/json-players-data';
 import JsonCrudService from './json-crud-service';
 
 export class JSONPlayerService extends JsonCrudService<IJSONPlayer> {
