@@ -1,26 +1,22 @@
-import * as fs from 'fs';
-import * as path from 'path';
-
 /**
  * Clase con los métodos CRUD básicos para ser extendida
  */
 export default abstract class JsonCrudService<T> {
-  private filePath: string;
+  private jsonData: T[];
 
-  constructor(fileName: string) {
-    this.filePath = path.join(__dirname, '..', 'data', fileName);
+  constructor(data: any[]) {
+    this.jsonData = data;
   }
 
-  private readFile(): T[] {
-    const data = fs.readFileSync(this.filePath, 'utf8');
-    return JSON.parse(data) as T[];
+  private readPlayers(): T[] {
+    return this.jsonData;
   }
 
   /**
    * Busca todos los documentos de un modelo <T>
    */
   public async findAll(): Promise<T[]> {
-    return this.readFile();
+    return this.readPlayers();
   }
 
   /**
@@ -28,7 +24,7 @@ export default abstract class JsonCrudService<T> {
    * @param id el id del documento de tipo <T> a buscar
    */
   public async findById(id: string): Promise<T | undefined> {
-    const items = this.readFile();
+    const items = this.readPlayers();
     return items.find((item) => ((item as any)._id as any).$oid === id);
   }
 }

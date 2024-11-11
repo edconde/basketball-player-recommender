@@ -2,13 +2,14 @@ import {
   IJSONPlayer,
   IJSONPlayerRecomendado,
 } from '../models/json-player.model';
+import players_data from '../models/json-players-data.js';
 import JsonCrudService from './json-crud-service';
 
 export class JSONPlayerService extends JsonCrudService<IJSONPlayer> {
   private static instance: JSONPlayerService;
 
   constructor() {
-    super('players.json');
+    super(players_data);
   }
 
   /**
