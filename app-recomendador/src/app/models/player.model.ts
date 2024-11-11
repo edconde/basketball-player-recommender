@@ -3,7 +3,8 @@ export interface IPlayerRecomendado extends IPlayer {
 }
 
 export interface IPlayer {
-    _id: string,
+    [key: string]: any;
+    _id: any,
     Name: string,
     Team: string,
     Position: string,

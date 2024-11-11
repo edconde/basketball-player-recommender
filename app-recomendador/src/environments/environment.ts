@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   //apiRootUrl: 'https://localhost:3000/api',
-  apiRootUrl: 'https://edgarconde.me:3000/api',
+  apiRootUrl: null,
 };
 
 /*
