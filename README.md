@@ -18,8 +18,21 @@ Aplicación para recomendar pares de jugadores NBA complementarios
     -   Ejecutar los siguientes comandos para levantar la aplicación en localhost:4200.
         -   npm install
         -   ng serve --o
+
+### Pasos para desplegar el proyecto (modo demo, sin BD ni API, con ficheros JSON estáticos en el frontend):
+- Front end:
+    -   Requisitos: NodeJs y npm
+    -   **La variable apiRootUrl del fichero environment.prod.ts debe tener el valor null**
+    -   Despliegue en GitHub Pages (https://edconde.github.io/basketball-player-recommender/):
+        -   Desde la ruta /app-recomendador, Ejecutar los comandos 'npm install' y 'npm run deploy-github-pages'.
+        -   Habilitar GitHub Pages para el repositorio en GitHub, configurando el despliegue desde la carpeta '/docs' de la rama 'main':
+        ![image](https://user-images.githubusercontent.com/15130843/192156210-2ec04693-dcda-4e2e-b309-61cce9ee9581.png)
+
+    -   Despliegue en un servidor:
+        -   Desde la ruta /app-recomendador, Ejecutar los comandos 'npm install' y 'ng build --prod'.
+        -   Subir los ficheros que se han generado en el directorio /dist/app-recomendador al servidor web de turno (por ejemplo, Apache).
         
-### Pasos para desplegar el proyecto:
+### Pasos para desplegar el proyecto (producción, con BD y API):
 - Back end:
     -   Requisitos: NodeJS, npm y Docker
     -   Generar imagen de Docker:
